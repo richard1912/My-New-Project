@@ -551,6 +551,65 @@ Use the included `push_updates.bat` script to easily push changes to the develop
 
 $readmeContent | Out-File -FilePath "README.md" -Encoding UTF8
 
+# Initialize spec-kit project
+Write-Host "🔧 Initializing spec-kit project..." -ForegroundColor Yellow
+try {
+    # Initialize spec-kit project in the current directory
+    uvx --from git+https://github.com/github/spec-kit.git specify init $ProjectName --yes
+    Write-Host "✅ spec-kit project initialized successfully" -ForegroundColor Green
+    
+    # Create .spec-kit directory structure
+    New-Item -ItemType Directory -Path ".spec-kit" -Force | Out-Null
+    New-Item -ItemType Directory -Path "specs" -Force | Out-Null
+    New-Item -ItemType Directory -Path "plans" -Force | Out-Null
+    New-Item -ItemType Directory -Path "tasks" -Force | Out-Null
+    
+    # Create a basic .spec-kit configuration file
+    $specKitConfig = @"
+{
+  "project_name": "$ProjectName",
+  "version": "1.0.0",
+  "description": "A new project created with spec-kit",
+  "language": "typescript",
+  "framework": "react",
+  "ai_agent": "claude",
+  "specs_directory": "specs",
+  "plans_directory": "plans",
+  "tasks_directory": "tasks"
+}
+"@
+    $specKitConfig | Out-File -FilePath ".spec-kit.json" -Encoding UTF8
+    
+    # Create a basic spec template
+    $specTemplate = @"
+# Project Specification: $ProjectName
+
+## Overview
+This is a new project created with spec-kit. Use the /specify command in your AI coding environment to define the project requirements.
+
+## Example Usage
+In your AI coding environment, you can now use:
+- `/specify "Your detailed project specification here"`
+- `/plan "Your technical implementation plan here"`
+- `/tasks` to break down the work
+- `/implement specs/001-feature-name/plan.md` to implement features
+
+## Project Structure
+- `specs/` - Project specifications
+- `plans/` - Technical implementation plans  
+- `tasks/` - Task breakdowns
+- `.spec-kit/` - spec-kit configuration and metadata
+"@
+    $specTemplate | Out-File -FilePath "specs/README.md" -Encoding UTF8
+    
+    Write-Host "✅ spec-kit project structure created" -ForegroundColor Green
+    Write-Host "✅ spec-kit configuration created" -ForegroundColor Green
+    
+} catch {
+    Write-Warning "⚠️ Failed to initialize spec-kit project. You can initialize it manually later:"
+    Write-Warning "   uvx --from git+https://github.com/github/spec-kit.git specify init $ProjectName"
+}
+
 # Create initial commit
 Write-Host "💾 Creating initial commit..." -ForegroundColor Yellow
 git add .
@@ -570,13 +629,20 @@ Write-Host ""
 Write-Host "🎉 Repository setup completed successfully!" -ForegroundColor Green
 Write-Host "📁 Project directory: $(Get-Location)" -ForegroundColor Cyan
 Write-Host "🌐 Repository URL: $repoUrl" -ForegroundColor Cyan
-Write-Host "📦 spec-kit: Available via uvx (uv package manager)" -ForegroundColor Cyan
+Write-Host "📦 spec-kit: Project initialized and ready for /specify commands!" -ForegroundColor Cyan
 Write-Host "📝 push_updates.bat: Created and customized for this repository" -ForegroundColor Cyan
 Write-Host ""
+Write-Host "🚀 Ready to use spec-kit commands in your AI chat!" -ForegroundColor Green
+Write-Host "You can now use these commands in your AI coding environment:" -ForegroundColor Yellow
+Write-Host "  /specify 'Your project specification here'" -ForegroundColor White
+Write-Host "  /plan 'Your technical plan here'" -ForegroundColor White
+Write-Host "  /tasks" -ForegroundColor White
+Write-Host "  /implement specs/001-feature-name/plan.md" -ForegroundColor White
+Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "1. Start developing your project in this directory" -ForegroundColor White
-Write-Host "2. Use push_updates.bat to push changes to the develop branch" -ForegroundColor White
-Write-Host "3. Use 'spec-kit' commands for Spec-Driven Development" -ForegroundColor White
+Write-Host "1. Open this project in your AI coding environment (Claude Code, GitHub Copilot, etc.)" -ForegroundColor White
+Write-Host "2. Start using /specify commands to define your project" -ForegroundColor White
+Write-Host "3. Use push_updates.bat to push changes to the develop branch" -ForegroundColor White
 Write-Host ""
 
 # Open the current directory in explorer

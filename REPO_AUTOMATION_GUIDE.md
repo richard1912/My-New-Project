@@ -2,6 +2,17 @@
 
 This guide explains how to use the automated repository creation script that sets up new GitHub repositories with spec-kit and customized push automation. The script works from within your project directory and automatically detects the project name from the current directory name.
 
+## 🚀 Ready to Use spec-kit Commands!
+
+After running the script, you can immediately start using spec-kit commands in your AI coding environment:
+
+- **`/specify "Your project specification here"`** - Define your project requirements
+- **`/plan "Your technical plan here"`** - Create implementation plans  
+- **`/tasks`** - Break down work into actionable items
+- **`/implement specs/001-feature-name/plan.md`** - Implement features
+
+The script automatically initializes a complete spec-kit project structure, so you can start using these commands right away in Claude Code, GitHub Copilot, or similar AI coding environments!
+
 ## Prerequisites
 
 The automation script will automatically install the required software for you using Windows Package Manager (winget). However, you need:
@@ -60,15 +71,16 @@ cd "C:\MyProject"
 
 ## What the Script Does
 
-1. **Installs Prerequisites**: Automatically installs GitHub CLI, Node.js, and Git using winget
+1. **Installs Prerequisites**: Automatically installs GitHub CLI, Node.js, Python, uv, and Git using winget
 2. **Detects Project Name**: Automatically determines project name from the current directory name
 3. **Checks Directory**: Warns if directory is not empty and asks for confirmation
 4. **Initializes Git Repository**: Sets up git in the current directory
 5. **Creates GitHub Repository**: Creates the repository on GitHub
 6. **Installs spec-kit Dependencies**: Installs uv (Python package manager) required for [spec-kit](https://github.com/github/spec-kit)
-7. **Customizes push_updates.bat**: Creates a customized batch file for easy pushing to develop branch
-8. **Sets Up Branches**: Creates both `master` and `develop` branches
-9. **Creates Initial Files**: Adds README.md and initial commit
+7. **Initializes spec-kit Project**: Sets up spec-kit project structure and configuration for immediate use
+8. **Customizes push_updates.bat**: Creates a customized batch file for easy pushing to develop branch
+9. **Sets Up Branches**: Creates both `master` and `develop` branches
+10. **Creates Initial Files**: Adds README.md, spec-kit configuration, and initial commit
 
 ## Generated Files
 
@@ -79,6 +91,15 @@ A customized batch file that:
 - Manages branch switching and merging
 - Provides interactive prompts for commit messages
 - Includes error handling and confirmation steps
+
+### spec-kit Project Structure
+The script automatically creates a complete spec-kit project structure:
+- `.spec-kit/` - spec-kit configuration and metadata
+- `specs/` - Project specifications directory
+- `plans/` - Technical implementation plans directory
+- `tasks/` - Task breakdowns directory
+- `.spec-kit.json` - spec-kit configuration file
+- `specs/README.md` - Basic spec template and usage instructions
 
 ### README.md
 A basic README file with:
@@ -91,38 +112,159 @@ A basic README file with:
 
 1. **You're already in your project directory** - no need to navigate anywhere!
 
-2. **Start developing:**
+2. **Open in AI coding environment:**
+   - Open this project in Claude Code, GitHub Copilot, or similar AI coding environment
+   - The spec-kit project is already initialized and ready to use
+
+3. **Start using spec-kit commands immediately:**
+   - Use `/specify "Your project specification here"` in your AI chat
+   - Use `/plan "Your technical plan here"` to create implementation plans
+   - Use `/tasks` to break down work into actionable items
+   - Use `/implement specs/001-feature-name/plan.md` to implement features
+
+4. **Develop your project:**
    - Add your code files
-   - Use `spec-kit` commands for Spec-Driven Development
    - Use `push_updates.bat` to push changes
 
-3. **Using push_updates.bat:**
+5. **Using push_updates.bat:**
    - Double-click the file or run it from command line
    - Follow the prompts to commit and push changes
    - The script handles all git operations automatically
 
 ## spec-kit Commands
 
-[Spec-kit](https://github.com/github/spec-kit) is a toolkit for Spec-Driven Development that uses `uvx` for installation:
+[Spec-kit](https://github.com/github/spec-kit) is a toolkit for Spec-Driven Development that uses `uvx` for installation. Here are the essential commands:
+
+### Basic Commands
 
 ```powershell
 # Initialize a new spec-driven project
 uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>
 
-# Create a new specification
-uvx --from git+https://github.com/github/spec-kit.git specify /specify "Build an application that helps organize photos"
-
-# Develop a technical plan
-uvx --from git+https://github.com/github/spec-kit.git specify /plan "Use Vite with vanilla HTML, CSS, and JavaScript"
-
-# Break down into tasks
-uvx --from git+https://github.com/github/spec-kit.git specify /tasks
-
-# Get help
+# Get help and see all available commands
 uvx --from git+https://github.com/github/spec-kit.git specify --help
+
+# Check version
+uvx --from git+https://github.com/github/spec-kit.git specify --version
 ```
 
-> **Note**: spec-kit is installed via `uvx` from the GitHub repository. It helps with Spec-Driven Development, allowing you to build high-quality software faster by focusing on product scenarios rather than writing undifferentiated code.
+### Spec-Driven Development Workflow
+
+The spec-kit workflow involves initializing a project and then using interactive commands within your development environment:
+
+```powershell
+# Step 1: Initialize a new spec-driven project
+uvx --from git+https://github.com/github/spec-kit.git specify init photo-organizer
+
+# Step 2: Navigate to the project directory
+cd photo-organizer
+
+# Step 3: Use interactive commands in your development environment
+# These commands are used within Claude Code, GitHub Copilot, or similar AI coding environments:
+
+# In your AI coding environment, use these commands:
+# /specify "Build an application that helps organize photos in separate photo albums. Albums are grouped by date and can be re-organized by dragging and dropping on the main page."
+
+# /plan "The application uses Vite with a minimal number of libraries. Use vanilla HTML, CSS, and JavaScript as much as possible. Images are not uploaded anywhere, and metadata is stored in a local SQLite database."
+
+# /tasks
+
+# Step 4: Implement the solution
+uvx --from git+https://github.com/github/spec-kit.git specify implement specs/001-create-photo-organizer/plan.md
+```
+
+### Available Commands
+
+```powershell
+# List all available specifications
+uvx --from git+https://github.com/github/spec-kit.git specify list
+
+# Show help for all available commands
+uvx --from git+https://github.com/github/spec-kit.git specify --help
+
+# Check version information
+uvx --from git+https://github.com/github/spec-kit.git specify --version
+
+# Initialize a new project with specific template
+uvx --from git+https://github.com/github/spec-kit.git specify init my-project --template web-app
+
+# Generate project structure
+uvx --from git+https://github.com/github/spec-kit.git specify generate structure
+
+# Create API documentation
+uvx --from git+https://github.com/github/spec-kit.git specify api docs
+
+# Generate test specifications
+uvx --from git+https://github.com/github/spec-kit.git specify tests generate
+```
+
+### Interactive Commands (Used in AI Coding Environments)
+
+The `/specify`, `/plan`, and `/tasks` commands are used within AI coding environments like Claude Code, GitHub Copilot, or similar tools:
+
+```powershell
+# These commands are used within your AI coding environment, not in the terminal:
+
+# /specify "Your detailed specification here"
+# /plan "Your technical plan here" 
+# /tasks
+# /implement specs/001-feature-name/plan.md
+```
+
+### How to Use spec-kit Properly
+
+1. **Initialize a project:**
+   ```powershell
+   uvx --from git+https://github.com/github/spec-kit.git specify init my-project
+   cd my-project
+   ```
+
+2. **Open in your AI coding environment** (Claude Code, GitHub Copilot, etc.)
+
+3. **Use the interactive commands** within the AI environment:
+   - `/specify` - Create detailed specifications
+   - `/plan` - Develop technical plans
+   - `/tasks` - Break down into actionable tasks
+   - `/implement` - Implement the solution
+
+4. **Use command-line tools** for project management:
+   ```powershell
+   # List specifications
+   uvx --from git+https://github.com/github/spec-kit.git specify list
+   
+   # Generate documentation
+   uvx --from git+https://github.com/github/spec-kit.git specify docs generate
+   
+   # Get help
+   uvx --from git+https://github.com/github/spec-kit.git specify --help
+   ```
+
+### Example Workflow
+
+Here's a complete example of using spec-kit for a web application:
+
+```powershell
+# 1. Initialize project
+uvx --from git+https://github.com/github/spec-kit.git specify init task-manager
+cd task-manager
+
+# 2. Open in your AI coding environment (Claude Code, GitHub Copilot, etc.)
+
+# 3. Use interactive commands within the AI environment:
+# /specify "Build a task management application with user authentication, project organization, and real-time collaboration features."
+
+# /plan "Use React with TypeScript, Node.js with Express, PostgreSQL database, and Socket.io for real-time features."
+
+# /tasks
+
+# /implement specs/001-create-task-manager/plan.md
+
+# 4. Use command-line tools for project management:
+uvx --from git+https://github.com/github/spec-kit.git specify list
+uvx --from git+https://github.com/github/spec-kit.git specify docs generate
+```
+
+> **Note**: spec-kit is installed via `uvx` from the GitHub repository. It helps with Spec-Driven Development, allowing you to build high-quality software faster by focusing on product scenarios rather than writing undifferentiated code. The toolkit integrates with AI coding agents like GitHub Copilot to streamline the development process.
 
 ## Troubleshooting
 
