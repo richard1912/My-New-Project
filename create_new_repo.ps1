@@ -555,7 +555,7 @@ $readmeContent | Out-File -FilePath "README.md" -Encoding UTF8
 Write-Host "🔧 Initializing spec-kit project..." -ForegroundColor Yellow
 try {
     # Initialize spec-kit project in the current directory
-    uvx --from git+https://github.com/github/spec-kit.git specify init $ProjectName --here
+    uvx --from git+https://github.com/github/spec-kit.git specify init --here
     Write-Host "✅ spec-kit project initialized successfully" -ForegroundColor Green
     
     # Create .spec-kit directory structure
