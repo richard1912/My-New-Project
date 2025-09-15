@@ -65,7 +65,7 @@ cd "C:\MyProject"
 5. **Creates GitHub Repository**: Creates the repository on GitHub
 6. **Installs spec-kit Globally**: Installs `@modelcontextprotocol/spec-kit` globally for persistent use
 7. **Customizes push_updates.bat**: Creates a customized batch file for easy pushing to develop branch
-8. **Sets Up Branches**: Creates both `main` and `develop` branches
+8. **Sets Up Branches**: Creates both `master` and `develop` branches
 9. **Creates Initial Files**: Adds README.md and initial commit
 
 ## Generated Files
@@ -185,7 +185,7 @@ spec-kit init
 - **Automatic project detection**: Project name is automatically detected from the current directory name
 - **Directory safety**: Script warns if directory is not empty and asks for confirmation
 - **Prerequisites**: The script automatically installs all required prerequisites using Windows Package Manager
-- **Branches**: The script creates both `main` and `develop` branches
+- **Branches**: The script creates both `master` and `develop` branches
 - **Default workflow**: All changes are pushed to the `develop` branch by default
 - **Global tools**: spec-kit is installed globally, so it's available system-wide
 - **Customized automation**: The push_updates.bat file is customized for your specific repository

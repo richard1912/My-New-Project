@@ -259,7 +259,9 @@ try {
     npm install -g @modelcontextprotocol/spec-kit
     Write-Host "✅ spec-kit installed globally" -ForegroundColor Green
 } catch {
-    Write-Warning "⚠️ Failed to install spec-kit globally. You may need to run 'npm install -g @modelcontextprotocol/spec-kit' manually"
+    Write-Warning "⚠️ Failed to install spec-kit globally. The package '@modelcontextprotocol/spec-kit' may not exist in the npm registry."
+    Write-Warning "   You can try installing it manually or check if the package name is correct."
+    Write-Warning "   For now, continuing without spec-kit..."
 }
 
 # Create customized push_updates.bat file
@@ -484,15 +486,16 @@ Write-Host "🌿 Creating develop branch..." -ForegroundColor Yellow
 git checkout -b develop
 git push -u origin develop
 
-# Switch back to main
-git checkout main
-git push -u origin main
+# Switch back to master (GitHub's default branch)
+Write-Host "🔄 Switching back to master branch..." -ForegroundColor Yellow
+git checkout master
+git push -u origin master
 
 Write-Host ""
 Write-Host "🎉 Repository setup completed successfully!" -ForegroundColor Green
 Write-Host "📁 Project directory: $(Get-Location)" -ForegroundColor Cyan
 Write-Host "🌐 Repository URL: $repoUrl" -ForegroundColor Cyan
-Write-Host "📦 spec-kit: Installed globally (persistent)" -ForegroundColor Cyan
+Write-Host "📦 spec-kit: Installation attempted (check warnings above)" -ForegroundColor Cyan
 Write-Host "📝 push_updates.bat: Created and customized for this repository" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
