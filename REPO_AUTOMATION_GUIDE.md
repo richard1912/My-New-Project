@@ -11,7 +11,8 @@ The automation script will automatically install the required software for you u
 
 The script will automatically install:
 - **GitHub CLI** - For GitHub repository management
-- **Node.js and npm** - For spec-kit and other tools
+- **Node.js and npm** - For JavaScript tools and development
+- **Python** - For spec-kit and other Python tools
 - **Git** - For version control
 
 > **Note**: If automatic installation fails, the script will provide manual installation links for each required tool.
@@ -63,9 +64,9 @@ cd "C:\MyProject"
 3. **Checks Directory**: Warns if directory is not empty and asks for confirmation
 4. **Initializes Git Repository**: Sets up git in the current directory
 5. **Creates GitHub Repository**: Creates the repository on GitHub
-6. **Installs spec-kit Globally**: Installs `@modelcontextprotocol/spec-kit` globally for persistent use
+6. **Installs spec-kit Globally**: Installs [spec-kit](https://github.com/github/spec-kit) (Python package) globally for Spec-Driven Development
 7. **Customizes push_updates.bat**: Creates a customized batch file for easy pushing to develop branch
-8. **Sets Up Branches**: Creates both `main` and `develop` branches
+8. **Sets Up Branches**: Creates both `master` and `develop` branches
 9. **Creates Initial Files**: Adds README.md and initial commit
 
 ## Generated Files
@@ -91,7 +92,7 @@ A basic README file with:
 
 2. **Start developing:**
    - Add your code files
-   - Use `spec-kit` commands for project management
+   - Use `spec-kit` commands for Spec-Driven Development
    - Use `push_updates.bat` to push changes
 
 3. **Using push_updates.bat:**
@@ -101,10 +102,10 @@ A basic README file with:
 
 ## spec-kit Commands
 
-Since spec-kit is installed globally, you can use it from anywhere:
+Since spec-kit is installed globally, you can use it from anywhere. [Spec-kit](https://github.com/github/spec-kit) is a toolkit for Spec-Driven Development:
 
 ```powershell
-# Initialize a new spec
+# Initialize a new spec-driven project
 spec-kit init
 
 # Create a new specification
@@ -116,6 +117,8 @@ spec-kit list
 # Get help
 spec-kit --help
 ```
+
+> **Note**: spec-kit is a Python package that helps with Spec-Driven Development, allowing you to build high-quality software faster by focusing on product scenarios rather than writing undifferentiated code.
 
 ## Troubleshooting
 
@@ -185,9 +188,9 @@ spec-kit init
 - **Automatic project detection**: Project name is automatically detected from the current directory name
 - **Directory safety**: Script warns if directory is not empty and asks for confirmation
 - **Prerequisites**: The script automatically installs all required prerequisites using Windows Package Manager
-- **Branches**: The script creates both `main` and `develop` branches
+- **Branches**: The script creates both `master` and `develop` branches
 - **Default workflow**: All changes are pushed to the `develop` branch by default
-- **Global tools**: spec-kit is installed globally, so it's available system-wide
+- **Global tools**: spec-kit (Python package) is installed globally, so it's available system-wide
 - **Customized automation**: The push_updates.bat file is customized for your specific repository
 - **Extensive logging**: Detailed logging is provided throughout the process for troubleshooting
 - **Fallback support**: If automatic installation fails, manual installation links are provided

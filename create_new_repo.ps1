@@ -55,6 +55,21 @@ function Install-NodeJS {
     }
 }
 
+# Function to install Python using winget
+function Install-Python {
+    Write-Host "📦 Installing Python using winget..." -ForegroundColor Yellow
+    try {
+        winget install --id Python.Python.3 --accept-package-agreements --accept-source-agreements
+        Write-Host "✅ Python installed successfully" -ForegroundColor Green
+        # Refresh environment variables
+        $env:Path = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
+        return $true
+    } catch {
+        Write-Warning "⚠️ Failed to install Python using winget. Please install manually from https://python.org/"
+        return $false
+    }
+}
+
 # Function to install Git using winget
 function Install-Git {
     Write-Host "📦 Installing Git using winget..." -ForegroundColor Yellow
@@ -116,6 +131,21 @@ function Install-Prerequisites {
         Write-Host "✅ Node.js found" -ForegroundColor Green
     }
     
+    # Check and install Python
+    if (-not (Test-Command "python")) {
+        Write-Host "🔍 Python not found. Attempting to install..." -ForegroundColor Yellow
+        if (Test-Command "winget") {
+            if (-not (Install-Python)) {
+                $allInstalled = $false
+            }
+        } else {
+            Write-Host "❌ Cannot install Python without winget" -ForegroundColor Red
+            $allInstalled = $false
+        }
+    } else {
+        Write-Host "✅ Python found" -ForegroundColor Green
+    }
+    
     # Check and install Git
     if (-not (Test-Command "git")) {
         Write-Host "🔍 Git not found. Attempting to install..." -ForegroundColor Yellow
@@ -139,7 +169,8 @@ function Install-Prerequisites {
         Write-Host "Required software:" -ForegroundColor Yellow
         Write-Host "1. GitHub CLI: https://cli.github.com/" -ForegroundColor White
         Write-Host "2. Node.js: https://nodejs.org/" -ForegroundColor White
-        Write-Host "3. Git: https://git-scm.com/" -ForegroundColor White
+        Write-Host "3. Python: https://python.org/" -ForegroundColor White
+        Write-Host "4. Git: https://git-scm.com/" -ForegroundColor White
         exit 1
     } else {
         Write-Host "✅ All prerequisites are installed and ready!" -ForegroundColor Green
@@ -189,6 +220,13 @@ try {
     Write-Host "   npm: $npmVersion" -ForegroundColor Green
 } catch {
     Write-Host "   Node.js/npm: Not available" -ForegroundColor Red
+}
+
+try {
+    $pythonVersion = python --version
+    Write-Host "   Python: $pythonVersion" -ForegroundColor Green
+} catch {
+    Write-Host "   Python: Not available" -ForegroundColor Red
 }
 
 try {
@@ -256,10 +294,12 @@ git remote add origin $repoUrl
 # Install spec-kit globally (persistent installation)
 Write-Host "📦 Installing spec-kit globally..." -ForegroundColor Yellow
 try {
-    npm install -g @modelcontextprotocol/spec-kit
+    # Install spec-kit using pip (it's a Python package)
+    pip install spec-kit
     Write-Host "✅ spec-kit installed globally" -ForegroundColor Green
 } catch {
-    Write-Warning "⚠️ Failed to install spec-kit globally. You may need to run 'npm install -g @modelcontextprotocol/spec-kit' manually"
+    Write-Warning "⚠️ Failed to install spec-kit globally. You may need to run 'pip install spec-kit' manually"
+    Write-Warning "   Note: spec-kit is a Python package, not an npm package"
 }
 
 # Create customized push_updates.bat file
@@ -484,21 +524,22 @@ Write-Host "🌿 Creating develop branch..." -ForegroundColor Yellow
 git checkout -b develop
 git push -u origin develop
 
-# Switch back to main
-git checkout main
-git push -u origin main
+# Switch back to master (GitHub's default branch)
+Write-Host "🔄 Switching back to master branch..." -ForegroundColor Yellow
+git checkout master
+git push -u origin master
 
 Write-Host ""
 Write-Host "🎉 Repository setup completed successfully!" -ForegroundColor Green
 Write-Host "📁 Project directory: $(Get-Location)" -ForegroundColor Cyan
 Write-Host "🌐 Repository URL: $repoUrl" -ForegroundColor Cyan
-Write-Host "📦 spec-kit: Installed globally (persistent)" -ForegroundColor Cyan
+Write-Host "📦 spec-kit: Installed globally (Python package)" -ForegroundColor Cyan
 Write-Host "📝 push_updates.bat: Created and customized for this repository" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
 Write-Host "1. Start developing your project in this directory" -ForegroundColor White
 Write-Host "2. Use push_updates.bat to push changes to the develop branch" -ForegroundColor White
-Write-Host "3. Use 'spec-kit' commands to manage your project specifications" -ForegroundColor White
+Write-Host "3. Use 'spec-kit' commands for Spec-Driven Development" -ForegroundColor White
 Write-Host ""
 
 # Open the current directory in explorer
