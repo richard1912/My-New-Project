@@ -70,6 +70,19 @@ function Install-Python {
     }
 }
 
+# Function to install uv using pip
+function Install-UV {
+    Write-Host "📦 Installing uv (Python package manager)..." -ForegroundColor Yellow
+    try {
+        pip install uv
+        Write-Host "✅ uv installed successfully" -ForegroundColor Green
+        return $true
+    } catch {
+        Write-Warning "⚠️ Failed to install uv. You may need to run 'pip install uv' manually"
+        return $false
+    }
+}
+
 # Function to install Git using winget
 function Install-Git {
     Write-Host "📦 Installing Git using winget..." -ForegroundColor Yellow
@@ -146,6 +159,21 @@ function Install-Prerequisites {
         Write-Host "✅ Python found" -ForegroundColor Green
     }
     
+    # Check and install uv
+    if (-not (Test-Command "uv")) {
+        Write-Host "🔍 uv not found. Attempting to install..." -ForegroundColor Yellow
+        if (Test-Command "python") {
+            if (-not (Install-UV)) {
+                $allInstalled = $false
+            }
+        } else {
+            Write-Host "❌ Cannot install uv without Python" -ForegroundColor Red
+            $allInstalled = $false
+        }
+    } else {
+        Write-Host "✅ uv found" -ForegroundColor Green
+    }
+    
     # Check and install Git
     if (-not (Test-Command "git")) {
         Write-Host "🔍 Git not found. Attempting to install..." -ForegroundColor Yellow
@@ -170,7 +198,8 @@ function Install-Prerequisites {
         Write-Host "1. GitHub CLI: https://cli.github.com/" -ForegroundColor White
         Write-Host "2. Node.js: https://nodejs.org/" -ForegroundColor White
         Write-Host "3. Python: https://python.org/" -ForegroundColor White
-        Write-Host "4. Git: https://git-scm.com/" -ForegroundColor White
+        Write-Host "4. uv: pip install uv" -ForegroundColor White
+        Write-Host "5. Git: https://git-scm.com/" -ForegroundColor White
         exit 1
     } else {
         Write-Host "✅ All prerequisites are installed and ready!" -ForegroundColor Green
@@ -227,6 +256,13 @@ try {
     Write-Host "   Python: $pythonVersion" -ForegroundColor Green
 } catch {
     Write-Host "   Python: Not available" -ForegroundColor Red
+}
+
+try {
+    $uvVersion = uv --version
+    Write-Host "   uv: $uvVersion" -ForegroundColor Green
+} catch {
+    Write-Host "   uv: Not available" -ForegroundColor Red
 }
 
 try {
@@ -294,12 +330,13 @@ git remote add origin $repoUrl
 # Install spec-kit globally (persistent installation)
 Write-Host "📦 Installing spec-kit globally..." -ForegroundColor Yellow
 try {
-    # Install spec-kit using pip (it's a Python package)
-    pip install spec-kit
-    Write-Host "✅ spec-kit installed globally" -ForegroundColor Green
+    # Install spec-kit using uvx (it's installed from GitHub repository)
+    uvx --from git+https://github.com/github/spec-kit.git specify --help | Out-Null
+    Write-Host "✅ spec-kit installed and available via uvx" -ForegroundColor Green
 } catch {
-    Write-Warning "⚠️ Failed to install spec-kit globally. You may need to run 'pip install spec-kit' manually"
-    Write-Warning "   Note: spec-kit is a Python package, not an npm package"
+    Write-Warning "⚠️ Failed to install spec-kit. You may need to install uv first:"
+    Write-Warning "   pip install uv"
+    Write-Warning "   Then run: uvx --from git+https://github.com/github/spec-kit.git specify init <PROJECT_NAME>"
 }
 
 # Create customized push_updates.bat file
@@ -533,7 +570,7 @@ Write-Host ""
 Write-Host "🎉 Repository setup completed successfully!" -ForegroundColor Green
 Write-Host "📁 Project directory: $(Get-Location)" -ForegroundColor Cyan
 Write-Host "🌐 Repository URL: $repoUrl" -ForegroundColor Cyan
-Write-Host "📦 spec-kit: Installed globally (Python package)" -ForegroundColor Cyan
+Write-Host "📦 spec-kit: Available via uvx (uv package manager)" -ForegroundColor Cyan
 Write-Host "📝 push_updates.bat: Created and customized for this repository" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Yellow
